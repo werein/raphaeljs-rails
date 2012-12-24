@@ -8,8 +8,8 @@ Gem::Specification.new do |gem|
   gem.version       = Raphaeljs::Rails::VERSION
   gem.authors       = ["Jiri Kolarik"]
   gem.email         = ["jiri.kolarik@imin.cz"]
-  gem.description   = %q{TODO: Raphael JavaScript library for Ruby on Rails}
-  gem.summary       = %q{TODO: Raphael JS for Rails}
+  gem.description   = %q{Raphael JavaScript library for Ruby on Rails}
+  gem.summary       = %q{Raphael JS for Rails}
   gem.homepage      = ""
 
   gem.files         = `git ls-files`.split($/)
