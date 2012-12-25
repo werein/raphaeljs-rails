@@ -10,7 +10,7 @@ Gem::Specification.new do |gem|
   gem.email         = ["jiri.kolarik@imin.cz"]
   gem.description   = %q{Raphael JavaScript library for Ruby on Rails}
   gem.summary       = %q{Raphael JS for Rails}
-  gem.homepage      = ""
+  gem.homepage      = "https://github.com/werein/raphaeljs-rails"
 
   gem.files         = `git ls-files`.split($/)
   gem.executables   = gem.files.grep(%r{^bin/}).map{ |f| File.basename(f) }
