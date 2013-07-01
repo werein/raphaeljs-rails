@@ -21,5 +21,5 @@ Or install it yourself as:
 Insert js files to your application.js
 
 ```coffeescript
-#= require raphael/raphael
+#= require raphael
 ```
