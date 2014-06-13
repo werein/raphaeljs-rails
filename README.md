@@ -1,5 +1,9 @@
 # Raphaeljs::Rails
 
+# This gem is not maintained anymore, please use rails assets
+
+`gem 'rails-assets-raphael'`
+
 Raphael JavaScript library for Ruby on Rails
 
 ## Installation
