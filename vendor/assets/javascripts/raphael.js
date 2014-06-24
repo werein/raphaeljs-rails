@@ -52,7 +52,7 @@
      = (object) array of returned values from the listeners
     \*/
         eve = function (name, scope) {
-            name = String(name);
+			name = String(name);
             var e = events,
                 oldstop = stop,
                 args = Array.prototype.slice.call(arguments, 2),
@@ -112,8 +112,8 @@
             current_event = ce;
             return out.length ? out : null;
         };
-        // Undocumented. Debug only.
-        eve._events = events;
+		// Undocumented. Debug only.
+		eve._events = events;
     /*\
      * eve.listeners
      [ method ]
@@ -178,15 +178,15 @@
      | eve.on("mouse", scream);
      | eve.on("mouse", catchIt)(1);
      * This will ensure that `catchIt()` function will be called before `eatIt()`.
-     *
+	 *
      * If you want to put your handler before non-indexed handlers, specify a negative value.
      * Note: I assume most of the time you don’t need to worry about z-index, but it’s nice to have this feature “just in case”.
     \*/
     eve.on = function (name, f) {
-        name = String(name);
-        if (typeof f != "function") {
-            return function () {};
-        }
+		name = String(name);
+		if (typeof f != "function") {
+			return function () {};
+		}
         var names = name.split(separator),
             e = events;
         for (var i = 0, ii = names.length; i < ii; i++) {
@@ -209,23 +209,23 @@
      [ method ]
      **
      * Returns function that will fire given event with optional arguments.
-     * Arguments that will be passed to the result function will be also
-     * concated to the list of final arguments.
-     | el.onclick = eve.f("click", 1, 2);
-     | eve.on("click", function (a, b, c) {
-     |     console.log(a, b, c); // 1, 2, [event object]
-     | });
+	 * Arguments that will be passed to the result function will be also
+	 * concated to the list of final arguments.
+ 	 | el.onclick = eve.f("click", 1, 2);
+ 	 | eve.on("click", function (a, b, c) {
+ 	 |     console.log(a, b, c); // 1, 2, [event object]
+ 	 | });
      > Arguments
-     - event (string) event name
-     - varargs (…) and any other arguments
-     = (function) possible event handler function
+	 - event (string) event name
+	 - varargs (…) and any other arguments
+	 = (function) possible event handler function
     \*/
-    eve.f = function (event) {
-        var attrs = [].slice.call(arguments, 1);
-        return function () {
-            eve.apply(null, [event, null].concat(attrs).concat([].slice.call(arguments, 0)));
-        };
-    };
+	eve.f = function (event) {
+		var attrs = [].slice.call(arguments, 1);
+		return function () {
+			eve.apply(null, [event, null].concat(attrs).concat([].slice.call(arguments, 0)));
+		};
+	};
     /*\
      * eve.stop
      [ method ]
@@ -272,7 +272,7 @@
      [ method ]
      **
      * Removes given function from the list of event listeners assigned to given name.
-     * If no arguments specified all the events will be cleared.
+	 * If no arguments specified all the events will be cleared.
      **
      > Arguments
      **
@@ -286,10 +286,10 @@
      * See @eve.off
     \*/
     eve.off = eve.unbind = function (name, f) {
-        if (!name) {
-            eve._events = events = {n: {}};
-            return;
-        }
+		if (!name) {
+		    eve._events = events = {n: {}};
+			return;
+		}
         var names = name.split(separator),
             e,
             key,
@@ -376,7 +376,7 @@
         return "You are running Eve " + version;
     };
     (typeof module != "undefined" && module.exports) ? (module.exports = eve) : (typeof define != "undefined" ? (define("eve", [], function() { return eve; })) : (glob.eve = eve));
-})(this);
+})(window || this);
 // ┌─────────────────────────────────────────────────────────────────────┐ \\
 // │ "Raphaël 2.1.2" - JavaScript Vector Library                         │ \\
 // ├─────────────────────────────────────────────────────────────────────┤ \\
@@ -2362,11 +2362,11 @@
                 attrs = {x: 0, y: 0, bx: 0, by: 0, X: 0, Y: 0, qx: null, qy: null},
                 attrs2 = {x: 0, y: 0, bx: 0, by: 0, X: 0, Y: 0, qx: null, qy: null},
                 processPath = function (path, d, pcom) {
-                    var nx, ny;
+                    var nx, ny, tq = {T:1, Q:1};
                     if (!path) {
                         return ["C", d.x, d.y, d.x, d.y, d.x, d.y];
                     }
-                    !(path[0] in {T:1, Q:1}) && (d.qx = d.qy = null);
+                    !(path[0] in tq) && (d.qx = d.qy = null);
                     switch (path[0]) {
                         case "M":
                             d.X = path[1];
@@ -5412,7 +5412,6 @@
         var isPointInside = false;
         this.forEach(function (el) {
             if (el.isPointInside(x, y)) {
-                console.log('runned');
                 isPointInside = true;
                 return false; // stop loop
             }
@@ -6078,13 +6077,20 @@
                     case "blur":
                         o.blur(value);
                         break;
-                    case "href":
                     case "title":
-                        var hl = $("title");
-                        var val = R._g.doc.createTextNode(value);
-                        hl.appendChild(val);
-                        node.appendChild(hl);
+                        var title = node.getElementsByTagName("title");
+
+                        // Use the existing <title>.
+                        if (title.length && (title = title[0])) {
+                          title.firstChild.nodeValue = value;
+                        } else {
+                          title = $("title");
+                          var val = R._g.doc.createTextNode(value);
+                          title.appendChild(val);
+                          node.appendChild(title);
+                        }
                         break;
+                    case "href":
                     case "target":
                         var pn = node.parentNode;
                         if (pn.tagName.toLowerCase() != "a") {
@@ -7020,7 +7026,7 @@
         eve("raphael.setViewBox", this, this._viewBox, [x, y, w, h, fit]);
         var size = mmax(w / this.width, h / this.height),
             top = this.top,
-            aspectRatio = fit ? "meet" : "xMinYMin",
+            aspectRatio = fit ? "xMidYMid meet" : "xMinYMin",
             vb,
             sw;
         if (x == null) {
@@ -7433,7 +7439,7 @@
             params["stroke-linejoin"] && (stroke.joinstyle = params["stroke-linejoin"] || "miter");
             stroke.miterlimit = params["stroke-miterlimit"] || 8;
             params["stroke-linecap"] && (stroke.endcap = params["stroke-linecap"] == "butt" ? "flat" : params["stroke-linecap"] == "square" ? "square" : "round");
-            if (params["stroke-dasharray"]) {
+            if ("stroke-dasharray" in params) {
                 var dasharray = {
                     "-": "shortdash",
                     ".": "shortdot",
